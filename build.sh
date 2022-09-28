@@ -1,27 +1,5 @@
 #!/usr/bin/env bash
 
-echo "MIT License
-
-Copyright (c) 2022 Ademir Giraldelli
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE."
-
 echo
 echo "Fetch and install all updates"
 sudo apt update && sudo apt upgrade -y
@@ -102,8 +80,9 @@ export LIBS="-lssl -lcrypto -ldl -lpthread"
 export TOOLCHAIN_PREFIX=${TOOLCHAIN_SYSROOT}/usr
 
 # Copy pthread lib. For a unknown reason a symbolic link it is not working.
-# Fix .so scripts
 cp -v ${TOOLCHAIN_SYSROOT}/lib/*thread* ${TOOLCHAIN_SYSROOT}/usr/lib
+
+# Fix .so scripts
 sed -i "s+/lib/libpthread.so.0+libpthread.so.0+" ${TOOLCHAIN_SYSROOT}/usr/lib/libpthread.so
 sed -i 's+/usr/lib/libpthread_nonshared.a+libpthread_nonshared.a+g' ${TOOLCHAIN_SYSROOT}/usr/lib/libpthread.so
 sed -i 's+/lib/libc.so.6+libc.so.6+g' ${TOOLCHAIN_SYSROOT}/usr/lib/libc.so
@@ -171,8 +150,8 @@ sleep 1
 
 # echo
 # echo "Finally a sanity check to make sure the files are there..."
-ls -al ${TOOLCHAIN_PREFIX}/lib
-ls -al ${TOOLCHAIN_PREFIX}/include
+ls -al ${WORK_ROOT}/azure-sdk-binaries/lib
+ls -al ${WORK_ROOT}/azure-sdk-binaries/include
 
 # Go to project root
 cd ${WORK_ROOT}
